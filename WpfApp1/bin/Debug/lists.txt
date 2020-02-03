@@ -1,0 +1,6 @@
+creation date:
+15.12.2019
+Press 'Add new To do list' to start working
+True
+topic:
+Start working
