@@ -1,0 +1,158 @@
+﻿<Page x:Class="WpfTaskmanager.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfTaskmanager.View"
+        mc:Ignorable="d"
+        WindowTitle="Task Manager"  WindowHeight="400" WindowWidth="510" d:DesignWidth="498" d:DesignHeight="479">
+    <Page.Background>
+        <ImageBrush ImageSource="pack://application:,,,/images/background.jpg"/>
+    </Page.Background>
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <Grid>
+                <Menu Height = "35" VerticalAlignment = "Top">
+                    <MenuItem Height = "35" Header="Add.." Style="{StaticResource MenuItemStyle}" >
+                        <MenuItem Name="AddNote" Header="New note" Click="AddNote_Click" Style="{StaticResource MenuItemStyle}"></MenuItem>
+                        <MenuItem Name="AddReminder" Header="New reminder" Click="AddReminder_Click" Style="{StaticResource MenuItemStyle}"></MenuItem>
+                        <MenuItem Name="AddToDoList" Header="New &quot;To do&quot; list" Click="AddToDoList_Click" Style="{StaticResource MenuItemStyle}"></MenuItem>
+                    </MenuItem>
+                </Menu>
+                <ToolBar HorizontalAlignment="Right" VerticalAlignment="Top" Height="35" Style="{StaticResource ToolBarStyle}">
+                    <TextBox Width="150"  Style="{StaticResource TextBoxStyle}"
+                             Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                             GotFocus="TextBox_GotFocus"/> 
+                </ToolBar>
+                <TabControl Margin="0 35 0 0">
+                    <TabItem Header="Notes" Style="{StaticResource TabItemStyle}">
+                        <TabItem.Content>
+                            <ListBox Grid.Row="1" Margin="10 10 10 10" Name ="Notes"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                             HorizontalContentAlignment="Stretch"
+                             ItemsSource="{Binding Notes, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                             SelectionMode="Single"
+                             SelectedItem="{Binding SelectedNote, Mode=TwoWay}"
+                             MouseDoubleClick="Notes_MouseDoubleClick"
+                             Style="{StaticResource ListBoxStyle}"
+                             ItemContainerStyle="{StaticResource ListBoxItemStyle}">
+                                <ListBox.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Delete" Command="{Binding DeleteNote_Command}">
+                                            <MenuItem.Icon>
+                                                <Image Source="pack://application:,,,/images/delete.jpg"/>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                    </ContextMenu>
+                                </ListBox.ContextMenu>
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel IsItemsHost="True" Orientation="Horizontal" 
+                                               FlowDirection="LeftToRight" />
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="2*"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Grid.Row="0" Text="{Binding Topic}" HorizontalAlignment="Center" Height = "50" Width ="100" />
+                                            <TextBlock Grid.Row="1" Text="{Binding CreationDate}" FontSize="7" HorizontalAlignment="Center" Height = "50" Width ="100"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </TabItem.Content>
+                    </TabItem>
+                    <TabItem Header="Reminders" Style="{StaticResource TabItemStyle}">
+                        <TabItem.Content>
+                            <ListBox Name ="Reminders" Margin="10 10 10 10"
+                                     HorizontalContentAlignment="Stretch"
+                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                     ItemsSource="{Binding Reminders, UpdateSourceTrigger=PropertyChanged}"
+                                     SelectedItem="{Binding SelectedReminder, Mode=TwoWay}"
+                                     MouseDoubleClick="Reminders_MouseDoubleClick"
+                                     Style="{StaticResource ListBoxStyle}"
+                                     ItemContainerStyle="{StaticResource ListBoxItemStyle}">
+                                <!--SelectionChanged="Reminders_SelectionChanged"-->
+                                <ListBox.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Delete" Command="{Binding DeleteReminder_Command}">
+                                            <MenuItem.Icon>
+                                                <Image Source="pack://application:,,,/images/delete.jpg"/>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                    </ContextMenu>
+                                </ListBox.ContextMenu>
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Grid.Row="1" IsItemsHost="True"
+                                                   Orientation="Horizontal" 
+                                                   FlowDirection="LeftToRight" />
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="2*"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Grid.Row="0" Text="{Binding Topic}" HorizontalAlignment="Center" Height = "50" Width ="100" />
+                                            <TextBlock Grid.Row="1" Text="{Binding CreationDate}" FontSize="7" HorizontalAlignment="Center" Height = "50" Width ="100"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </TabItem.Content>
+                    </TabItem>
+                    <TabItem Header="Lists" Style="{StaticResource TabItemStyle}">
+                        <TabItem.Content>
+                            <ListBox Name ="Lists" Margin="10 10 10 10"
+                                     HorizontalContentAlignment="Stretch"
+                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                     ItemsSource="{Binding Lists, UpdateSourceTrigger=PropertyChanged}"
+                                     SelectionMode="Extended"
+                                     SelectedItem="{Binding SelectedList, Mode=TwoWay}"
+                                     MouseDoubleClick="Lists_MouseDoubleClick"
+                                     Style="{StaticResource ListBoxStyle}"
+                                     ItemContainerStyle="{StaticResource ListBoxItemStyle}">
+                                <!--SelectionChanged="Lists_SelectionChanged"-->
+                                <ListBox.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Delete" Command="{Binding DeleteList_Command}">
+                                            <MenuItem.Icon>
+                                                <Image Source="pack://application:,,,/images/delete.jpg"/>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                    </ContextMenu>
+                                </ListBox.ContextMenu>
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Grid.Row="1" IsItemsHost="True"
+                                                   Orientation="Horizontal"
+                                                   FlowDirection="LeftToRight" />
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="2*"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Grid.Row="0" Text="{Binding Topic}" HorizontalAlignment="Center" Height = "50" Width ="100" />
+                                            <TextBlock Grid.Row="1" Text="{Binding CreationDate}" FontSize="7" HorizontalAlignment="Center" Height = "50" Width ="100"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </TabItem.Content>
+                    </TabItem>
+                </TabControl>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</Page>

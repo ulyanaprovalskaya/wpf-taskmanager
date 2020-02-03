@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="WpfTaskmanager.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="NotesFilePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">notes.txt</Value>
+    </Setting>
+    <Setting Name="RemindersFilePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">reminders.txt</Value>
+    </Setting>
+    <Setting Name="ListsFilePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">lists.txt</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

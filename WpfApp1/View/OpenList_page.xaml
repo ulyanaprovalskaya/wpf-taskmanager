@@ -1,0 +1,96 @@
+﻿<Page x:Class="WpfTaskmanager.View.OpenList_page"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfTaskmanager"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      WindowHeight="400" WindowWidth="510"
+      Title="OpenList_page">
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="pack://application:,,,/images/background.jpg"/>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="*" />
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <ToolBar Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="25">
+            <StackPanel Orientation="Horizontal">
+                <Button Name="Edit"
+                Width="50" HorizontalAlignment="Right"
+                Content="Edit"
+                Style="{StaticResource SaveButtonStyle}"
+                Visibility="{Binding EditButton_visibility, Converter={StaticResource BoolToVis}}"
+                Command="{Binding Edit_Command}" />
+                <Button Name="Save"
+                Width="50" HorizontalAlignment="Right"
+                Content="Save"
+                Style="{StaticResource SaveButtonStyle}"        
+                Visibility="{Binding SaveList_ButtonVisibility, Converter={StaticResource BoolToVis}}"
+                Command="{Binding SaveEditedList_Command}" />
+            </StackPanel>
+        </ToolBar>
+        <TextBox Name="OpenedListTopic" Grid.Row="1"
+                 Margin="10 10 10 10"
+                 TextWrapping="Wrap"
+                 Background="#FF7373"
+                 Style="{StaticResource TopicTextBoxStyle}"
+                 Text="{Binding SelectedList.Topic, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                 IsReadOnly="{Binding TextBox_IsReadOnly, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+        <ListBox Grid.Row="2" Name ="Goals"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                             HorizontalContentAlignment="Stretch"
+                             SelectedItem="{Binding SelectedGoal}"
+                             ItemsSource="{Binding SelectedList.Goals, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Delete" Command="{Binding DeleteGoal}">
+                        <MenuItem.Icon>
+                            <Image Source="pack://application:,,,/images/delete.jpg"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Edit" Command="{Binding EditGoal}">
+                        <MenuItem.Icon>
+                            <Image Source="pack://application:,,,/images/edit.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
+            </ListBox.ContextMenu>
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel IsItemsHost="True" Orientation="Vertical"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.Background>
+                <ImageBrush ImageSource="pack://application:,,,/images/background.jpg"/>
+            </ListBox.Background>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <CheckBox Content="{Binding GoalText, Mode=TwoWay}"
+                              IsChecked="{Binding IsChecked, Mode=TwoWay}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Label Grid.Row="3" Margin="10 10 10 10"
+               Width="90" HorizontalAlignment="Left"
+               Visibility="{Binding AddButton_visibility, Converter={StaticResource BoolToVis}}"
+               FontWeight="DemiBold" Content="Add new goals:"/>
+        <TextBox Grid.Row="3" Margin="105 5 10 0"
+                 Background="White" TextWrapping="Wrap"
+                 Visibility="{Binding TextBox_visibility, Converter={StaticResource BoolToVis}}"
+                 Text="{Binding NewGoal.GoalText, Mode=TwoWay}"/>
+        <Button Grid.Row="4" Width="40" Height="20" 
+                HorizontalAlignment="Left" Margin="105 5 0 0"
+                Visibility="{Binding AddButton_visibility, Converter={StaticResource BoolToVis}}"
+                Content="+" Command="{Binding Edit_List}" />
+        <Button Grid.Row="4" Width="40" Height="20" 
+                HorizontalAlignment="Left" Margin="105 5 0 0"
+                Visibility="{Binding EditGoal_ButtonVisibility, Converter={StaticResource BoolToVis}}"
+                Content="Save" Command="{Binding SaveEdited_Goal}" />
+    </Grid>
+</Page>
